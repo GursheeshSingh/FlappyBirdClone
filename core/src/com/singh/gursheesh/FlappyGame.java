@@ -35,7 +35,7 @@ public class FlappyGame extends ApplicationAdapter {
 
     private int scoringPipe;
 
-    private float pipeVelocity = 10;
+    private float pipeVelocity = 4;
 
     private float[] pipeX = new float[NUMBER_OF_PIPES];
     private float[] pipeOffset = new float[NUMBER_OF_PIPES];
@@ -57,8 +57,8 @@ public class FlappyGame extends ApplicationAdapter {
     private static float PIPE_WIDTH;
     private static float PIPE_HEIGHT;
 
-    public static float BIRD_WIDTH;
-    public static float BIRD_HEIGHT;
+    private static float BIRD_WIDTH;
+    private static float BIRD_HEIGHT;
 
     private static final int PIPES_GAP = 500;
 
@@ -152,7 +152,6 @@ public class FlappyGame extends ApplicationAdapter {
             }
 
             if (pipeX[scoringPipe] == (SCREEN_WIDTH / 2) - PIPE_WIDTH) {
-
                 gameScore = gameScore + 1;
                 Gdx.app.log("Scored ", String.valueOf(gameScore));
 
@@ -239,7 +238,7 @@ public class FlappyGame extends ApplicationAdapter {
                     Intersector.overlaps(birdCircle, pipeFaceUpRectangles[i])) {
 
                 gameState = OVER;
-                Gdx.app.log("Collision", "Boom");
+                System.out.println("Collision");
 
             }
 
