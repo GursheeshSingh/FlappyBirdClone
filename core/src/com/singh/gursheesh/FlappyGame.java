@@ -62,26 +62,26 @@ public class FlappyGame extends ApplicationAdapter {
 
     private static final int PIPES_GAP = 500;
 
-    private static final int BIRD_WING_UP = 0;
+    private static final int BIRD_WING_UP   = 0;
     private static final int BIRD_WING_DOWN = 1;
 
     private static float SCREEN_BOTTOMMOST = 0;
-    private static float SCREEN_LEFTMOST = 0;
+    private static float SCREEN_LEFTMOST   = 0;
     private static float SCREEN_RIGHTMOST;
     private static float SCREEN_TOPMOST;
 
     private static final int START = 0;
-    private static final int PLAY = 1;
-    private static final int OVER = 2;
+    private static final int PLAY  = 1;
+    private static final int OVER  = 2;
 
     @Override
     public void create() {
 
-        SCREEN_WIDTH = Gdx.graphics.getWidth();
+        SCREEN_WIDTH  = Gdx.graphics.getWidth();
         SCREEN_HEIGHT = Gdx.graphics.getHeight();
 
         SCREEN_RIGHTMOST = SCREEN_WIDTH;
-        SCREEN_TOPMOST = SCREEN_HEIGHT;
+        SCREEN_TOPMOST   = SCREEN_HEIGHT;
 
         DISTANCE_BETWEEN_PIPES = SCREEN_WIDTH / 2;
 
@@ -91,26 +91,26 @@ public class FlappyGame extends ApplicationAdapter {
         font.setColor(Color.WHITE);
         font.getData().setScale(10);
 
-        gameOver = new Texture("gameover.png");
-        background = new Texture("bg.png");
+        gameOver     = new Texture("gameover.png");
+        background   = new Texture("bg.png");
         pipeFaceDown = new Texture("toptube.png");
-        pipeFaceUp = new Texture("bottomtube.png");
+        pipeFaceUp   = new Texture("bottomtube.png");
 
-        PIPE_WIDTH = pipeFaceDown.getWidth();
+        PIPE_WIDTH  = pipeFaceDown.getWidth();
         PIPE_HEIGHT = pipeFaceDown.getHeight();
 
         birds = new Texture[2];
-        birds[BIRD_WING_UP] = new Texture("bird.png");
+        birds[BIRD_WING_UP]   = new Texture("bird.png");
         birds[BIRD_WING_DOWN] = new Texture("bird2.png");
 
-        BIRD_WIDTH = birds[0].getWidth();
+        BIRD_WIDTH  = birds[0].getWidth();
         BIRD_HEIGHT = birds[0].getHeight();
 
         birdCircle = new Circle();
 
         randomGenerator = new Random();
 
-        pipeFaceUpRectangles = new Rectangle[NUMBER_OF_PIPES];
+        pipeFaceUpRectangles   = new Rectangle[NUMBER_OF_PIPES];
         pipeFaceDownRectangles = new Rectangle[NUMBER_OF_PIPES];
 
         initializingGame();
@@ -120,8 +120,8 @@ public class FlappyGame extends ApplicationAdapter {
     private void initializingGame() {
 
         birdVelocity = 0;
-        gameScore = 0;
-        scoringPipe = 0;
+        gameScore    = 0;
+        scoringPipe  = 0;
 
         birdY = (SCREEN_HEIGHT - birds[BIRD_WING_UP].getHeight()) / 2;
 
@@ -131,7 +131,7 @@ public class FlappyGame extends ApplicationAdapter {
             pipeX[i] = (SCREEN_WIDTH - PIPE_WIDTH) / 2 + SCREEN_WIDTH + (i * DISTANCE_BETWEEN_PIPES);
 
             pipeFaceDownRectangles[i] = new Rectangle();
-            pipeFaceUpRectangles[i] = new Rectangle();
+            pipeFaceUpRectangles[i]   = new Rectangle();
         }
     }
 
@@ -236,8 +236,7 @@ public class FlappyGame extends ApplicationAdapter {
 
         for (int i = 0; i < NUMBER_OF_PIPES; i++) {
 
-            if (Intersector.overlaps(birdCircle, pipeFaceDownRectangles[i]) ||
-                    Intersector.overlaps(birdCircle, pipeFaceUpRectangles[i])) {
+            if (birdCollide(pipeFaceDownRectangles[i],pipeFaceUpRectangles[i])) {
 
                 gameState = OVER;
                 System.out.println("Collision");
@@ -268,5 +267,9 @@ public class FlappyGame extends ApplicationAdapter {
 
     private boolean isBirdOffScreen(float y) {
         return (y <= SCREEN_BOTTOMMOST || y >= SCREEN_TOPMOST);
+    }
+
+    private boolean birdCollide(Rectangle pipeFaceDown,Rectangle pipeFaceUp){
+        return ( Intersector.overlaps(birdCircle, pipeFaceDown) || Intersector.overlaps(birdCircle, pipeFaceUp) );
     }
 }
